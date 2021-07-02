@@ -1,0 +1,195 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- QbForm -->
+		<script src='./QbForm-js/QbForm.js'></script>
+		<link rel="stylesheet" href="./QbForm-js/QbForm-default.css">
+		<link rel="stylesheet" href="./QbForm-js/QbForm-compact.css">
+		<link rel="stylesheet" href="./QbForm-js/QbForm-dark.css">
+		<!-- QbForm-table -->
+		<script src='./QbForm-js-table/QbForm-table.js'></script>
+		<link rel="stylesheet" href="./QbForm-js-table/QbForm-table-default.css">
+		<link rel="stylesheet" href="./QbForm-js-table/QbForm-table-compact.css">
+		<link rel="stylesheet" href="./QbForm-js-table/QbForm-table-dark.css">
+
+		<style>
+			#main {
+				position: absolute;
+				top: 40px;
+				left:0px;
+				width:100%;				
+				bottom:0px;
+				background-color: wheat;
+				border-top: solid 1px black;
+				overflow: auto;
+			}
+		</style>
+	</head>
+	
+  <body>
+
+
+		  <div id='myDiv'></div>
+
+			
+		<script>
+
+function buildList(nbLines) {
+				let result = []
+				for(let i=0; i< nbLines; i++) {
+					result.push( [ 'a' + i, 'b' + i, false , i ] )
+				}
+				return { 'MyList': result }
+			}
+
+     let schema_object = {
+				type: "object",
+				properties: {
+					MyString: {
+						type: "string",
+						label: "Example - String",
+						defaultValue: "DEF",
+						textPrefix: "Text prefix",
+						textSuffix: "Text suffix",
+						dataPrefix: "Data prefix",
+						dataSuffix: "Data suffix",
+						labelBackgroundColor: "red",
+						labelColor: "yellow",
+						textPrefixBackgroundColor: "wheat",
+						textPrefixColor: "blue",
+						textSuffixBackgroundColor: "darkblue",
+						textSuffixColor: "white",
+						backgroundColor: "green",
+						borderTop: "solid 2px pink",
+						dataPrefixColor: "red",
+						suggestedEnum: [
+							'value-1',
+							'value-2',
+							'value-3',
+							'value-4',
+							'value-5'
+							],
+							enabled: false
+					},
+					MyPassword: {
+						type: "string",
+						display: "password",
+						label: "Example - Password",
+						defaultValue: "DEF",
+						frameTopText: "Please enter your password here :",
+						frameTopFontSize: "10pt",
+						frameBottomText: "(10 characters min., Uppercase, Lowercase, 1 special char)<br/>Good Luck !",
+						frameBottomFontSize: "10pt",
+						frameBottomColor: "red"
+			    },
+          MyInteger1: {
+						type: "integer",
+						label: "Example - Integer 1",
+						defaultValue: 1
+			    },
+          MyButton: {
+						type: "button",
+						label: "Example - Button",
+						button_label: "Click here"
+					},
+					MyBoolean: {
+						type: "boolean",
+						label: "Example - Boolean",
+						display: "checkbox",
+						frameLeftText: "You can check this box !&nbsp;"
+					},
+					MyBoolean2: {
+						type: "boolean",
+						label: "Example - Boolean2",
+						display: "switch",
+						frameRightText: "... or switch this one !"
+					},
+					MyChoice: { 
+						type: "string",
+						label: "Example - Choice1",
+						display: "combobox",
+						enum:['CHOICE1','CHOICE2','CHOICE3'],
+						enumLabels:['Choice 1','Choice 2','Choice 3']
+					},
+					MyChoice2: { 
+						type: "string",
+						label: "Example - Choice2",
+						display: "radio",
+						enum:['CHOICE1','CHOICE2','CHOICE3'],
+						enumLabels:['Choice 1','Choice 2','Choice 3']
+					},
+					MyObject: {
+				    type: "object",
+				    label: "Example - Object",
+						frameBoxText: "This is an object !",
+						properties: {
+							MyObjString: {
+								type: "string",
+								label: "Example - Object/String",
+								defaultValue: "DEF",
+							},
+							MyObjInteger1: {
+								type: "integer",
+								label: "Example - Object/Integer 1",
+								defaultValue: 1
+							},
+							MyObjButton: {
+								type: "button",
+								label: "Example - Object/Button",
+								button_label: "Click here"
+							}
+						}
+					},
+          MyList: {
+						type: 'array',
+						label: 'List of data',
+						class: 'myTableClass',
+						frameLeftText: "Frame Left&nbsp;&nbsp;&nbsp;&nbsp;",
+						items: {
+							type: "object",
+							properties: {
+								col1: {
+									type: 'string',
+									label: 'column-1',
+									defaultValue: 'ABCDEF',
+									columnWidth: "50%",
+									suggestedEnum: [
+									'value-1',
+									'value-2',
+									'value-3',
+									'value-4',
+									'value-5'
+									]
+								},
+							  col2: {
+									type: 'string',
+									label: 'column 2',
+									defaultValue: 'GHIJKL',
+									enabled: false,
+									columnWidth: "25%"
+								},
+							col3: {
+									type: 'boolean',
+									label: 'column 3',
+									defaultValue: true,
+									columnWidth: "100px"
+								},
+							col4: {
+									type: 'integer',
+									label: 'column 4',
+									defaultValue: 19200,
+									columnWidth: "25%"
+								},
+							}
+						}
+					}
+				}
+			}
+
+			let qbForm = new QbForm( 'myDiv', schema_object, 'compact' )
+			qbForm.display()
+
+			qbForm.setProperty('/', 'value', buildList(15))
+		</script>
+  </body>
+</html>

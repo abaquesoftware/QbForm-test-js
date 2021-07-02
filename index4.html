@@ -1,0 +1,33 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+		<link rel="icon" href="./favicon.ico">
+
+    <style>
+      #myGrid {
+        display: grid;
+        grid-template-columns: 200px 200px;
+      }
+
+      #myGrid > div {
+        display: flex;
+        border: solid 1px red;
+      }
+
+      #myGrid > div > div {
+        flex-basis: 100%;
+        background-color: wheat;
+      }
+  </style>
+
+  </head>
+
+  <body>
+    <div id="myGrid">
+      <div><div>cell-1</div></div>
+      <div><div>cell-2.1<br/>cell-2.2</div></div>
+      <div><div>cell-3</div></div>
+      <div><div>cell-4</div></div>
+    </div>
+  </body>
+</html>

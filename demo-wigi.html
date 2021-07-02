@@ -1,0 +1,120 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+    <!-- QbForm -->
+		<script src='./QbForm-js/QbForm.js'></script>
+		<link rel="stylesheet" href="./QbForm-js/QbForm-default.css">
+		<link rel="stylesheet" href="./QbForm-js/QbForm-compact.css">
+		<link rel="stylesheet" href="./QbForm-js/QbForm-dark.css">
+		<!-- QbForm-table -->
+		<script src='./QbForm-js-table/QbForm-table.js'></script>
+		<link rel="stylesheet" href="./QbForm-js-table/QbForm-table-default.css">
+		<link rel="stylesheet" href="./QbForm-js-table/QbForm-table-compact.css">
+		<link rel="stylesheet" href="./QbForm-js-table/QbForm-table-dark.css">
+	</head>
+	
+  <body>
+		<div id='qbFormDisplay'></div>
+		<script>
+
+    let schema = {
+        type: "object",
+        properties: {
+          name: {
+                type: "string"
+          },
+          firstName: {
+                type: "string"
+          },
+          telephone: {
+            type: "string"
+          },
+          mail: {
+            type: "string"
+          },
+          address : {
+            type: "object",
+            cellWidth: "500px",
+            properties : {
+              field1 : {
+                type: "string"
+              },
+              field2 : {
+                type: "string"
+              },
+              zipcode: {
+                type: "integer",
+                label: "code postal"
+              },
+              town: {
+                type: "string"
+              }
+            }
+          },
+          languages: {
+            type: "array",
+            visibility: false,
+            items : {
+              type: "object",
+              properties: {<button 
+  onClick="qbForm.setProperty('/', 'value', candidate)">
+  load Value</button><br/>
+<br/>
+<br/>
+<br/>
+<textarea id=QbFormValue style="width:100%; height:100px; overflow: scroll;"></textarea><br/>
+<button 
+  onClick="getElementById('QbFormValue').value = JSON.stringify(qbForm.getProperty('/', 'value') )">
+  Get Value</button><br/>
+                lang: {
+                  type: "string",
+                },
+                level: {
+                  type: "integer"
+                }
+              }
+            }
+          }
+        }
+      }
+
+
+      var candidate = {
+        name: 'John',
+        firstName: 'Doe',
+        telephone: '+3312345678',
+        mail: 'john.doe@gmail.com',
+        address : {
+          field1: '3, rue des Lilas',
+          field2: 'Bat. 4',
+          zipcode: 75010,
+          town: 'PARIS'
+        },
+        languages: [
+          ["English", 3 ],
+          ["French", 4 ],
+          ["Spanish", 2 ]
+        ]
+      }
+      
+
+
+			var qbForm = new QbForm('qbFormDisplay', schema, 'default')
+			qbForm.display()
+
+		</script>
+
+<button 
+  onClick="qbForm.setProperty('/', 'value', candidate)">
+  load Value</button><br/>
+<br/>
+<br/>
+<br/>
+<textarea id=QbFormValue style="width:100%; height:100px; overflow: scroll;"></textarea><br/>
+<button 
+  onClick="getElementById('QbFormValue').value = JSON.stringify(qbForm.getProperty('/', 'value') )">
+  Get Value</button><br/>
+
+
+  </body>
+</html>

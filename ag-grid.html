@@ -1,0 +1,63 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+		<link rel="icon" href="./favicon.ico"> 
+    <!-- QbForm -->
+		<script src='./QbForm-js/QbForm.js'></script>
+		<link rel="stylesheet" href="./QbForm-js/QbForm-default.css">
+		<link rel="stylesheet" href="./QbForm-js/QbForm-compact.css">
+		<link rel="stylesheet" href="./QbForm-js/QbForm-dark.css">
+		<!-- QbForm-table -->
+		<script src='./QbForm-js-table/QbForm-table.js'></script>
+		<link rel="stylesheet" href="./QbForm-js-table/QbForm-table-default.css">
+		<link rel="stylesheet" href="./QbForm-js-table/QbForm-table-compact.css">
+		<link rel="stylesheet" href="./QbForm-js-table/QbForm-table-dark.css">
+  </head>
+  <body>
+    <script>
+      // ------------------------------------------
+      function loadData() {
+      // ------------------------------------------
+        const xhttp = new XMLHttpRequest();
+        xhttp.onreadystatechange = function() {
+          if (this.readyState == 4 && this.status == 200) {
+            const content = eval( this.responseText )
+            console.log( 'content = ', content )
+            qbForm = new QbForm('myDiv', schema, "default" )
+            qbForm.setProperty( '/', 'value', content )
+    				qbForm.display()
+          }
+        }
+        // const file = "./ag-grid-data.json"
+        const file = "./ag-grid-data-100rec.json"
+        // const file = "./ag-grid-data-8618rec.json"
+        xhttp.open("GET", file, true)
+        xhttp.send()
+    }
+
+    const schema = {
+      type: "array",
+      filter: true,
+      items: {
+        type: "object",
+        properties: {
+          athlete: { type: "string" },
+          age: { type: "integer", columnWidth: "40px" },
+          country: { type: "string" },
+          year: { type: "integer", columnWidth: "50px" },
+          date: { type: "string" },
+          sport: { type: "string" },
+          gold: { type: "integer", columnWidth: "40px", backgroundColor: "lemonchiffon" },
+          silver: { type: "integer", columnWidth: "40px", backgroundColor: "lightgrey" },
+          bronze: { type: "integer", columnWidth: "40px", backgroundColor: "wheat" },
+          total: { type: "integer", columnWidth: "40px" },
+        }
+      }
+    }
+
+    loadData()
+    </script>
+
+    <div id="myDiv" style="width: 100%;"></div>
+  </body>
+</html>

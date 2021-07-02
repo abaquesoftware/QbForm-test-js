@@ -1,0 +1,565 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+		<link rel="icon" href="./favicon.ico"> 
+    <!-- QbForm -->
+		<script src='./QbForm-js/QbForm.js'></script>
+		<link rel="stylesheet" href="./QbForm-js/QbForm-default.css">
+		<link rel="stylesheet" href="./QbForm-js/QbForm-compact.css">
+		<link rel="stylesheet" href="./QbForm-js/QbForm-dark.css">
+		<!-- QbForm-table -->
+		<script src='./QbForm-js-table/QbForm-table.js'></script>
+		<link rel="stylesheet" href="./QbForm-js-table/QbForm-table-default.css">
+		<link rel="stylesheet" href="./QbForm-js-table/QbForm-table-compact.css">
+		<link rel="stylesheet" href="./QbForm-js-table/QbForm-table-dark.css">
+
+		<style>
+			.myTableClass {
+				width: 1500px;
+				height: 200px;
+				background-color: wheat;
+				border: solid 1px black;
+			}
+			#header {
+				position: absolute;
+				top:0px;
+				left:0px;
+				width:100%;
+				height:30px;
+				background-color: lightgrey;
+				border: solid 1px black;
+			}
+			#main {
+				position: absolute;
+				top: 40px;
+				left:0px;
+				width:100%;
+				bottom:0px;
+				background-color: white;
+				border-top: solid 1px black;
+				overflow: auto;
+			}
+		</style>
+	</head>
+	
+  <body>
+		<script>
+			var qbForm = null
+
+			function clickCB(elementPath, cbName, input) {
+				console.log('oooooo - TEST-JS -> clickCB')
+				console.log('oooooo - TEST-JS    elementPath: ', elementPath)
+				console.log('oooooo - TEST-JS    cbName: ', cbName)
+				console.log('oooooo - TEST-JS    input: ', input)
+				alert('click from JS - ' +  QbForm.convertPathToString(elementPath) + ' !!')
+				console.log('oooooo - TEST-JS <- clickCB')
+			}
+
+      function buttonCallback( elementPathAsList, eventName, parameters ) {
+				console.log( "ooooo - CALLBACK - button ")
+				console.log( "ooooo -     elementPathAsList = " , elementPathAsList)
+				console.log( "ooooo -     eventName = " , eventName)
+				console.log( "ooooo -     parameters = " , parameters)
+				return true
+			}
+
+      function objectCallback( elementPathAsList, eventName, parameters ) {
+				console.log( "ooooo - CALLBACK - object ")
+				console.log( "ooooo -     elementPathAsList = " , elementPathAsList)
+				console.log( "ooooo -     eventName = " , eventName)
+				console.log( "ooooo -     parameters = " , parameters)
+				return true
+			}
+
+      function tableCallback( elementPathAsList, eventName, parameters ) {
+				console.log( "ooooo - CALLBACK - table ")
+				console.log( "ooooo -     elementPathAsList = " , elementPathAsList)
+				console.log( "ooooo -     eventName = " , eventName)
+				console.log( "ooooo -     parameters = " , parameters)
+				return true
+			}
+
+      function formCallback( elementPathAsList, eventName, parameters ) {
+				console.log( "ooooo - CALLBACK - form ")
+				console.log( "ooooo -     elementPathAsList = " , elementPathAsList)
+				console.log( "ooooo -     eventName = " , eventName)
+				console.log( "ooooo -     parameters = " , parameters)
+				return true
+			}
+
+			function buildWithTheme(theme,bgcolor) {
+				document.getElementById('main').style.backgroundColor = bgcolor
+				qbForm = new QbForm(schema_object, theme )
+        // qbForm = new QbForm(schema2, theme )
+
+				qbForm.setCallback('/MyObject/MyObjButton', 'onClick', buttonCallback)
+				qbForm.setCallback('/MyObject', 'onClick', objectCallback)
+				qbForm.setCallback('/', 'onChange', formCallback)
+				qbForm.setCallback('/', 'onClick', formCallback)
+				qbForm.setCallback('/', 'onKeyUp', formCallback)
+				qbForm.setCallback('/', 'onFocus', formCallback)
+				qbForm.setCallback('/', 'onRowAppend', formCallback)
+				qbForm.setCallback('/', 'onRowDeletion', formCallback)
+
+
+				// qbForm.setProperty( '/', 'value', xData)
+				qbForm.display(document.getElementById('myDiv'))
+			}
+
+			function buildList(nbLines) {
+				let result = []
+				for(let i=0; i< nbLines; i++) {
+					const colValue_1 = 'a' + i // string
+          const colValue_2 = 'pwd' + i // pwd
+					const colValue_3 = ( Math.random() * 1000000 ) // integer
+          const colValue_4 = 'b' + i // choice
+          const colValue_5 = ( Math.random() > 0.5 ) // boolean-checkbox
+          const colValue_6 = ( Math.random() > 0.5 ) // boolean-checkbox					
+					result.push( [ colValue_1, colValue_2, colValue_3, colValue_4, colValue_5, colValue_6 ] )
+				}
+				return { 'MyList': result }
+			}
+
+			function showHide() {
+				let visibility = qbForm.getProperty('/MyString', 'visibility')
+				console.log( "VISIBILITY : ", visibility)
+				qbForm.setProperty('/MyString', 'visibility', !visibility)
+			}
+
+			function enableDisable() {
+				let enabled = qbForm.getProperty('/MyString', 'enabled')
+				console.log( "ENABLED : ", enabled)
+				qbForm.setProperty('/MyString', 'enabled', !enabled)
+			}
+
+			function changeChoice() {
+				let choice = '/MyChoice2'
+				qbForm.setProperty(choice, 'value', 'CHOICE3')
+				qbForm.setProperty(choice, '_frameTopText', 'This is my choice')
+				qbForm.setProperty(choice, '_frameTopColor', 'red')
+				qbForm.setProperty(choice, '_frameTopBackgroundColor', 'lemonchiffon')
+			}
+
+			function changeColor() {
+        qbForm.setProperty('/MyList/3/col1', '_backgroundColor', 'lemonchiffon');
+        qbForm.setProperty('/MyList/3/col2', '_backgroundColor', 'pink');
+        qbForm.setProperty('/MyList/3/col3', '_backgroundColor', 'wheat');
+        qbForm.setProperty('/MyList/3/col4', '_backgroundColor', 'lavender');
+        qbForm.setProperty('/MyList/3/col5', '_backgroundColor', 'red');
+        qbForm.setProperty('/MyList/3/col6', '_backgroundColor', 'purple');
+        qbForm.setProperty('/MyList/3/col7', '_backgroundColor', 'blue');
+			}
+
+    </script>
+
+	  <div id="header">
+			<center>
+				<div>
+			  <button onclick="buildWithTheme('default','white')">Theme: default</button>
+			  &nbsp;&nbsp;&nbsp;&nbsp;
+			  <button onclick="buildWithTheme('compact','white')">Theme: compact</button>
+			  &nbsp;&nbsp;&nbsp;&nbsp;
+				<button onclick="buildWithTheme('dark','#282828')">Theme: dark</button>
+		  	</div>
+	  	</center>
+		</div>
+		
+		<div id=main>
+			<div id='myDiv'></div>
+			<button onClick="changeChoice()">Choice = 3</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<button onClick="showHide()">Show / Hide</button>
+			&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+			<button onClick="enableDisable()">Enable / Disable</button>
+			<br/>
+			<br/>
+			<button onClick="qbForm.setProperty('/', 'value', buildList(5)); changeColor();">Set 5 Rows</button><br/>
+			<button onClick="qbForm.setProperty('/', 'value', buildList(100))">Set 100 Rows</button><br/>
+			<button onClick="qbForm.setProperty('/', 'value', buildList(1000))">Set 1000 Rows</button><br/>
+	
+			<textarea id=QbFormValue style="width:100%; height:100px; overflow: scroll;"></textarea><br/>
+			<button 
+				onClick="getElementById('QbFormValue').value = JSON.stringify(qbForm.getProperty('/', 'value') )"
+				onClick2="console.log( qbForm.getProperty('/', 'value')[0]['/'] )">
+				Get Value</button><br/>
+	
+			</div>
+			
+		<script>
+
+      let schema_object = {
+				type: "object",
+				properties: {
+					MyString: {
+						type: "string",
+						_label: "Example - String",
+						_labelBackgroundColor: "wheat",
+						_defaultValue: "DEF",
+						_frameLeftText: "FRAME LEFT TEXT",
+						_frameLeftColor: "red",
+						_frameRightText: "FRAME RIGHT TEXT",
+						_frameRightBackgroundColor: "lavender",
+						_inputLeftText: "Text prefix",
+						_inputRightText: "Text suffix",
+						_inputLeftBackgroundColor: "steelblue",
+						_inputLeftColor: "white",
+						_inputRightColor: "red",
+						_suggestedEnum: [
+							'value-1',
+							'value-2',
+							'value-3',
+							'value-4',
+							'value-5'
+							],
+						enabled: false,
+
+					},
+					MyPassword: {
+						type: "string",
+						_display: "password",
+						_label: "Example - Password",
+						_labelBackgroundColor: "lavender",
+						_defaultValue: "DEF",
+						_frameTopText: "Please enter your password here :",
+						_frameTopFontSize: "10pt",
+						_frameBottomText: "(10 characters min., Uppercase, Lowercase, 1 special char)<br/>Good Luck !",
+						_frameBottomFontSize: "10pt",
+						_frameBottomColor: "red"
+			    },
+          MyInteger1: {
+						type: "integer",
+						_label: "Example - Integer 1",
+						_defaultValue: 1
+			    },
+          MyButton: {
+						type: "button",
+						_label: "Example - Button",
+						_button_label: "Click here"
+					},
+					MyBoolean: {
+						type: "boolean",
+						_label: "Example - Boolean",
+						_display: "checkbox",
+						_frameLeftText: "You can check this box !&nbsp;"
+					},
+					MyBoolean2: {
+						type: "boolean",
+						_label: "Example - Boolean2",
+						_display: "switch",
+						_frameRightText: "... or switch this one !"
+					},
+					MyChoice: { 
+						type: "string",
+						_label: "Example - Choice1",
+						_display: "combobox",
+						enum:['CHOICE1','CHOICE2','CHOICE3'],
+						_enumLabels:['Choice 1','Choice 2','Choice 3']
+					},
+					MyChoice2: { 
+						type: "string",
+						_label: "Example - Choice2",
+						_display: "radio",
+						enum:['CHOICE1','CHOICE2','CHOICE3'],
+						_enumLabels:['Choice 1','Choice 2','Choice 3']
+					},
+					MyObject: {
+				    type: "object",
+				    _label: "Example - Object",
+						_frameBoxText: "This is an object !",
+						properties: {
+							MyObjString: {
+								type: "string",
+								_label: "Example - Object/String",
+								_defaultValue: "DEF",
+							},
+							MyObjInteger1: {
+								type: "integer",
+								_label: "Example - Object/Integer 1",
+								_defaultValue: 1
+							},
+							MyObjButton: {
+								type: "button",
+								_label: "Example - Object/Button",
+								_buttonLabel: "Click here"
+							}
+						}
+					},
+          MyList: {
+						type: 'array',
+						_label: 'List of data',
+						_class: 'myTableClass',
+						_filter: true,
+						_sorting: true,
+						_mode: "read-write",
+						_width: '1550px',
+						_frameLeftText: "Frame Left&nbsp;&nbsp;&nbsp;&nbsp;",
+						items: {
+							type: "object",
+							properties: {
+								col1: {
+									type: 'string',
+									_label: 'column-1',
+									_defaultValue: 'value-1',
+									_dataLeftText: "$",
+						      _dataRightText: "€",
+									_suggestedEnum: [
+									'value-1',
+									'value-2',
+									'value-3',
+									'value-4',
+									'value-5'
+									],
+									_sortable: false,
+									_filter: true,
+								},
+								col2: {
+									type: 'string',
+									_label: 'column 2',
+									_defaultValue: 'admin',
+									_display: 'password',
+								},
+								col3: {
+									type: 'integer',
+									_label: 'column 3',
+									_defaultValue: 19200
+								},
+								col4: {
+									type: 'string',
+									_label: 'column 4',
+									_defaultValue: 'GHIJKL',
+									_active: false,
+									_sortable: true,
+									_filter: true,									
+									enum:['b0','b1','b2','b3','b4'],
+						      _enumLabels:['Choice 0','Choice 1','Choice 2','Choice 3','Choice 4']
+								},
+							  col5: {
+									type: 'boolean',
+									_label: 'column 5',
+									_defaultValue: true,
+									_filter: true,
+									_display: "checkbox"
+								},
+							  col6: {
+									type: 'boolean',
+									_label: 'column 6',
+									_defaultValue: true,
+									_filter: true,
+									_display: "switch"
+								},
+							  col7: {
+									type: 'button',
+									_label: 'column 7',
+									_buttonLabel2: 'click !',
+									_buttonLabel: 'click here !'
+								},
+							}
+						}
+					}
+				}
+			}
+
+			const schema2 = {
+  "definitions": {
+    "Thing": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "default": "Default name"
+        }
+      }
+    }
+  },
+  "type": "object",
+  "properties": {
+    "listOfStrings": {
+      "type": "array",
+      "title": "A list of strings",
+      "items": {
+        "type": "string",
+        "default": "bazinga"
+      }
+    },
+    "multipleChoicesList": {
+      "type": "array",
+      "title": "A multiple choices list",
+      "items": {
+        "type": "string",
+        "enum": [
+          "foo",
+          "bar",
+          "fuzz",
+          "qux"
+        ]
+      },
+      "uniqueItems": true
+    },
+    "fixedItemsList": {
+      "type": "array",
+      "title": "A list of fixed items",
+      "items": [
+        {
+          "title": "A string value",
+          "type": "string",
+          "default": "lorem ipsum"
+        },
+        {
+          "title": "a boolean value",
+          "type": "boolean"
+        }
+      ],
+      "additionalItems": {
+        "title": "Additional item",
+        "type": "number"
+      }
+    },
+    "minItemsList": {
+      "type": "array",
+      "title": "A list with a minimal number of items",
+      "minItems": 3,
+      "items": {
+        "$ref": "#/definitions/Thing"
+      }
+    },
+    "defaultsAndMinItems": {
+      "type": "array",
+      "title": "List and item level defaults",
+      "minItems": 5,
+      "default": [
+        "carp",
+        "trout",
+        "bream"
+      ],
+      "items": {
+        "type": "string",
+        "default": "unidentified"
+      }
+    },
+    "nestedList": {
+      "type": "array",
+      "title": "Nested list",
+      "items": {
+        "type": "array",
+        "title": "Inner list",
+        "items": {
+          "type": "string",
+          "default": "lorem ipsum"
+        }
+      }
+    },
+    "unorderable": {
+      "title": "Unorderable items",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "default": "lorem ipsum"
+      }
+    },
+    "unremovable": {
+      "title": "Unremovable items",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "default": "lorem ipsum"
+      }
+    },
+    "noToolbar": {
+      "title": "No add, remove and order buttons",
+      "type": "array",
+      "items": {
+        "type": "string",
+        "default": "lorem ipsum"
+      }
+    },
+    "fixedNoToolbar": {
+      "title": "Fixed array without buttons",
+      "type": "array",
+      "items": [
+        {
+          "title": "A number",
+          "type": "number",
+          "default": 42
+        },
+        {
+          "title": "A boolean",
+          "type": "boolean",
+          "default": false
+        }
+      ],
+      "additionalItems": {
+        "title": "A string",
+        "type": "string",
+        "default": "lorem ipsum"
+      }
+    }
+  }
+}
+
+     const xData = {
+  "listOfStrings": [
+    "foo",
+    "bar"
+  ],
+  "multipleChoicesList": [
+    "foo",
+    "bar"
+  ],
+  "fixedItemsList": [
+    "Some text",
+    true,
+    123
+  ],
+  "minItemsList": [
+    {
+      "name": "Default name"
+    },
+    {
+      "name": "Default name"
+    },
+    {
+      "name": "Default name"
+    }
+  ],
+  "defaultsAndMinItems": [
+    "carp",
+    "trout",
+    "bream",
+    "unidentified",
+    "unidentified"
+  ],
+  "nestedList": [
+    [
+      "lorem",
+      "ipsum"
+    ],
+    [
+      "dolor"
+    ]
+  ],
+  "unorderable": [
+    "one",
+    "two"
+  ],
+  "unremovable": [
+    "one",
+    "two"
+  ],
+  "noToolbar": [
+    "one",
+    "two"
+  ],
+  "fixedNoToolbar": [
+    42,
+    true,
+    "additional item one",
+    "additional item two"
+  ]
+}
+
+			buildWithTheme('compact','white')
+			// buildWithTheme('dark','#282828')
+
+		</script>
+  </body>
+</html>

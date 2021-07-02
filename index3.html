@@ -1,0 +1,55 @@
+<html>
+  <head>
+    <meta charset="utf-8">
+<!--
+		<style>			
+			body { background-color: blue; }
+			</style>
+		-->	
+		<link rel="stylesheet" href="./QbForm-js/QbForm-compact.css">
+		<link rel="stylesheet" href="./QbForm-js-table/QbForm-table-compact.css">
+
+
+	</head>
+	
+  <body>
+		<div class="_qbf-compact">
+			<div class="_qbfthc-compact">
+				<div>
+					<div class="_qbfthc-compact_text">
+				TEST &darr;
+				</div>
+			</div>
+		</div>
+	</div>
+	<img src='data:image/svg+xml;utf8,<svg width="24" height="24" fill="steelblue" xmlns="http://www.w3.org/2000/svg"><path d="m2,8c0,0 0,0 20,0c0,0 -10,10 -10,10c0,0 -10,-10 -10,-10z"/></svg>'></img>
+		<script>
+			function showCss() {
+				console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" )
+				let cssSsList = document.styleSheets
+				for(let i = 0 ; i < cssSsList.length; i++ ) {
+					let cssSs = cssSsList[i]
+					console.log("xxxxx - CssSS [",i,"] = ", cssSs)
+				}				
+				console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" )
+
+				// let cssSs = new CSSStyleSheet()
+				// document.styleSheets.append(cssSs)
+				let s = document.createElement('style')
+				// s.type = 'text/css'
+				s.href = 'QbForm'
+				document.head.appendChild(s)
+				console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" )
+				for(let i = 0 ; i < cssSsList.length; i++ ) {
+					let cssSs = cssSsList[i]
+					console.log("xxxxx - CssSS [",i,"] = ", cssSs)
+				}				
+				console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx" )
+			}
+
+		</script>
+
+			<button onClick="showCss()">xxxxxxxxxxxx</button> 
+
+  </body>
+</html>
